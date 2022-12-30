@@ -4,7 +4,7 @@ from pygame.mouse import get_pos, get_pressed
 
 #Constants
 WIDTH, HEIGHT = 600, 589
-RADIUS = 20
+RADIUS = 60
 TITLE = "Smooth Movement"
 
 #pygame initialization
@@ -13,7 +13,6 @@ win = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption(TITLE)
 clock = pygame.time.Clock()
 
-#game Class
 class Game:
     def __init__(self, x, y, radius):
         self.rect = pygame.draw.circle(win, 'orange', (x, y), radius)
@@ -27,6 +26,8 @@ class Game:
         pygame.draw.circle(win, self.color, (self.rect.x, self.rect.y), self.rect.height)
     
     def update(self):
+            
+
         # change of speed if on border
         if self.rect.x <= self.rect.height or self.rect.x >= WIDTH - self.rect.height:
             self.velX = -self.velX
@@ -42,14 +43,19 @@ class Game:
         self.rect.y += self.velY
 
         # prevents bug on edges
-        if self.rect.x - self.rect.height < 0:
-            self.rect.x += 2
-        if self.rect.y - self.rect.height < 0:
-            self.rect.y += 2  
-        if self.rect.x - self.rect.height > WIDTH:
-            self.rect.x -= 2
-        if self.rect.y - self.rect.height > HEIGHT:
-            self.rect.y -= 2  
+        # woah, that took a while
+        if self.rect.x < self.rect.height + self.velX:
+            self.rect.x += abs(self.velX)
+            
+        if self.rect.y < self.rect.height + self.velY:
+            self.rect.y += abs(self.velY)
+            
+        if self.rect.x > WIDTH - self.rect.height + self.velX:
+            self.rect.x -= abs(self.velX)
+            
+        if self.rect.y > HEIGHT - self.rect.height + self.velY:
+            self.rect.y -= abs(self.velY)
+        
     
     def circle_clicked(self) -> bool:
         x, y = get_pos()
@@ -58,7 +64,7 @@ class Game:
         return distance_from_center <= self.rect.height and left_click 
 
 #game Initialization
-game = Game(WIDTH/2, HEIGHT/2, RADIUS)
+game = Game(WIDTH, HEIGHT, RADIUS)
 
 # main Loop
 while True:
@@ -73,6 +79,7 @@ while True:
 
     # update
     game.update()
+    print(game.rect)
     pygame.display.flip()
 
     clock.tick(120)
