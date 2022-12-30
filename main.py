@@ -62,6 +62,14 @@ class Game:
         left_click, *_ = get_pressed()
         distance_from_center = ((x - self.rect.x)**2 + (y - self.rect.y)**2)**0.5
         return distance_from_center <= self.rect.height and left_click 
+    
+    def distance_to_circle(self) -> float:
+        # negative if inside circle
+        # positive if outside
+        x, y = get_pos()
+        distance_from_center = ((x - self.rect.x)**2 + (y - self.rect.y)**2)**0.5
+        distance_to_border = distance_from_center - self.rect.height
+        return distance_to_border
 
 #game Initialization
 game = Game(WIDTH, HEIGHT, RADIUS)
@@ -79,7 +87,7 @@ while True:
 
     # update
     game.update()
-    print(game.rect)
+    print(game.distance_to_circle())
     pygame.display.flip()
 
     clock.tick(120)
