@@ -70,6 +70,14 @@ class Game:
         distance_from_center = ((x - self.rect.x)**2 + (y - self.rect.y)**2)**0.5
         distance_to_border = distance_from_center - self.rect.height
         return distance_to_border
+    
+    def change_speed(self):
+        pass
+    def next_frame(self): # circle's coordinates
+        pass
+    # if next_frame distance is negative: change speed and change coordinates in other way
+    
+
 
 #game Initialization
 game = Game(WIDTH, HEIGHT, RADIUS)
