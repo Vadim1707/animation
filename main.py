@@ -71,7 +71,10 @@ class Game:
         distance_to_border = distance_from_center - self.rect.height
         return distance_to_border
     
-    def change_speed(self):
+    def speed(self):
+        return (self.velX**2 + self.velY**2)**0.5
+
+    def change_speed(self, obstacle_coord):
         pass
     def next_frame(self): # circle's coordinates
         pass
